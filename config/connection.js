@@ -1,0 +1,24 @@
+// setup the code to connect Node to MySQL.
+
+// Export the connection.
+var mysql = require('mysql');
+var inquirer = require('inquirer');
+
+var connection = mysql.createConnection({
+	host: 'localhost',
+	port: 3001,
+	user: 'root',
+	password: 'Paokpaok12',
+	database: 'burgers_db'
+});
+
+connection.connect(function(err) {
+	if (err) {
+		return console.error('error connecting: ' + err.stack);
+	};
+
+	console.log('connected as id ' + connection.threadId);
+
+})
+
+module.exports = connection;
