@@ -6,19 +6,19 @@ var inquirer = require('inquirer');
 
 var connection = mysql.createConnection({
 	host: 'localhost',
-	port: 3001,
+	port: 5000,
 	user: 'root',
-	password: 'Paokpaok12',
+	password: '',
 	database: 'burgers_db'
 });
 
 connection.connect(function(err) {
 	if (err) {
-		return console.error('error connecting: ' + err.stack);
+		return console.error('error connecting: ' + err);
 	};
 
 	console.log('connected as id ' + connection.threadId);
 
 })
 
-module.exports = connection;
+module.exports.connection = connection;

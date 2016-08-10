@@ -7,8 +7,7 @@ var exphbs = require('express-handlebars');
 var mysql = require('mysql');
 
 var app = express();
-var port = 3000;
-var myConnection = require('./config/connection.js'); //PROBLEM HERE
+var connection = require('./config/connection.js').connection; //PROBLEM HERE
 // require ORM
 var ORM = require('./config/orm.js');
 ORM.selectAll();
@@ -36,7 +35,7 @@ app.set('view engine', 'handlebars');
 //=================================================================
 app.get('/', function(req, res) {
     connection.query('SELECT * FROM burgers', function(err, results) {
-        if (err) throw error
+        if (err) throw err
             //render the index.handlebars template and put in the data from the burgers table
         res.render('index', {
             burgers: data

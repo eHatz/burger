@@ -4,15 +4,16 @@
 // insertOne()
 // updateOne()
 // Export the ORM object in module.exports.
-var connection = require('./connection');
+var connection = require('./connection.js').connection;
 
-var sqlCommands = {
+
+var ORM = {
 	selectAll: function() {
 		connection.query('SELECT * FROM burgers', function(err, res){
 			if (err) {
 				throw err;
 			}
-			var allBurgers = res;
+			console.log(res);
 		})
 	},
 
@@ -39,4 +40,4 @@ var sqlCommands = {
 	}
 };
 
-module.exports = sqlCommands;
+module.exports = ORM;
