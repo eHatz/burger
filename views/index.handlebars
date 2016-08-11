@@ -1,2 +1,12 @@
 {{!-- Setup the index.handlebars to have the template that Handlebars can render onto.
 Create a button in index.handlebars that will submit the user input into the database. --}}
+
+{{#each burgers}}
+	<div class='burgerDivs'>
+		<form method="POST" action="/devoured/{{id}}">
+			<p>{{burger_name}}</p>
+			<input type="hidden" name="id" value="{{id}}">
+			<button type='submit'>Devour</button>
+		</form>
+	</div>
+{{/each}}

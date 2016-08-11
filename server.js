@@ -5,9 +5,10 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var exphbs = require('express-handlebars');
 var mysql = require('mysql');
+var connection = require('./config/connection.js').connection;
 
 var app = express();
-var connection = require('./config/connection.js').connection; //PROBLEM HERE
+ //PROBLEM HERE
 // require ORM
 var ORM = require('./config/orm.js');
 ORM.selectAll();
@@ -34,13 +35,16 @@ app.set('view engine', 'handlebars');
 //ROUTES
 //=================================================================
 app.get('/', function(req, res) {
-    connection.query('SELECT * FROM burgers', function(err, results) {
+    connection.query('SELECT * FROM burgers', function(err, data) {
         if (err) throw err
             //render the index.handlebars template and put in the data from the burgers table
-        res.render('index', {
-            burgers: data
-        })
-
+        res.render('index', {burgers: data})
     })
 
 });
+
+var port = 3000;
+app.listen(port, function () {
+	console.log('Listening on PORT ' + port);
+});
+
