@@ -8,12 +8,26 @@ var connection = require('./connection.js').connection;
 
 
 var ORM = {
-	selectAll: function() {
-		connection.query('SELECT * FROM burgers', function(err, res){
+	selectAll: function(result) {
+		connection.query('SELECT * FROM burgers', function(err, data){
 			if (err) {
 				throw err;
-			}
-			console.log(res);
+			};
+			var devouredBurg = [];
+			var newBurg = [];
+
+			for (var i = 0; i < data.length; i++) {
+				if (data[i].devoured === 0) {
+					newBurg.push(data[i]);
+				} else {
+					devouredBurg.push(data[i])
+				}
+			};
+			var allBurgers = {
+				new: newBurg,
+				devoured: devouredBurg
+			};
+			result.render('index', allBurgers);
 		})
 	},
 
@@ -22,19 +36,19 @@ var ORM = {
 			burger_name: name,
 			devoured: false
 		}
-		connection.query('INSERT INTO burgers SET ?', newBurger, function(err, res) {
+		connection.query('INSERT INTO burgers SET ?', newBurger, function(err, data) {
 			if (err) {
 				throw err;
-			}
+			};
 
 		})
 	},
 
 	update: function(id){
-		connection.query('UPDATE burgers SET ? WHERE ?', [{devoured: true}, {id: id}], function(err, res) {
+		connection.query('UPDATE burgers SET ? WHERE ?', [{devoured: true}, {id: id}], function(err, data) {
 			if (err) {
 					throw err;
-			}
+			};
 
 		})
 	}

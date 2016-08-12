@@ -11,7 +11,6 @@ var app = express();
  //PROBLEM HERE
 // require ORM
 var ORM = require('./config/orm.js');
-ORM.selectAll();
 // check if insertOne works
 // ORM.insertOne('testBurger', false);
 // test if updating "devoured" works
@@ -35,18 +34,18 @@ app.set('view engine', 'handlebars');
 //ROUTES
 //=================================================================
 app.get('/', function(req, res) {
-    connection.query('SELECT * FROM burgers', function(err, data) {
-        if (err) throw err
-            //render the index.handlebars template and put in the data from the burgers table
-        res.render('index', {burgers: data})
-    })
 
+    ORM.selectAll(res);
 });
 app.post('/devoured/:id', function(req, res) {
-
-	res.redirect()
+	ORM.update(req.body.id);
+	res.redirect('/')
 });
 
+app.post('/create', function(req, res) {
+	ORM.insert(req.body.burger_name);
+	res.redirect('/');
+});
 var port = 3000;
 app.listen(port, function () {
 	console.log('Listening on PORT ' + port);
