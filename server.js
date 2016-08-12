@@ -42,6 +42,10 @@ app.get('/', function(req, res) {
     })
 
 });
+app.post('/devoured/:id', function(req, res) {
+
+	res.redirect()
+});
 
 var port = 3000;
 app.listen(port, function () {
