@@ -1,10 +1,3 @@
-// import the following:
-
-// express
-// method-override
-// body-parser
-// Create the router for the app, and export the router at the end of your file.
-
 var express = require('express');
 var methodO = require('method-override');
 var bodyParse = require('body-parser');
@@ -35,7 +28,6 @@ router.get('/', function(req, res) {
 
 router.post('/create', function(req, res) {
 	burger.create(req.body.burger_name);
-	console.log(req.body.burger_name);
 	res.redirect('/');
 });
 
