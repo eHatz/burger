@@ -9,12 +9,12 @@ var connection = require('./config/connection.js').connection;
 
 var app = express();
  //PROBLEM HERE
-// require ORM
-var ORM = require('./config/orm.js');
+// require orm
+var orm = require('./config/orm.js');
 // check if insertOne works
-// ORM.insertOne('testBurger', false);
+// orm.insertOne('testBurger', false);
 // test if updating "devoured" works
-// ORM.updateOne(6);
+// orm.updateOne(6);
 //================================================================
 //MIDDLEWARE
 //================================================================
@@ -33,19 +33,22 @@ app.set('view engine', 'handlebars');
 //=================================================================
 //ROUTES
 //=================================================================
-app.get('/', function(req, res) {
+// app.get('/', function(req, res) {
 
-    ORM.selectAll(res);
-});
-app.post('/devoured/:id', function(req, res) {
-	ORM.update(req.body.id);
-	res.redirect('/')
-});
+//     orm.selectAll(res);
+// });
+// app.post('/devoured/:id', function(req, res) {
+// 	orm.update(req.body.id);
+// 	res.redirect('/')
+// });
 
-app.post('/create', function(req, res) {
-	ORM.insert(req.body.burger_name);
-	res.redirect('/');
-});
+// app.post('/create', function(req, res) {
+// 	orm.insert(req.body.burger_name);
+// 	res.redirect('/');
+// });
+
+var routes = require('./controllers/burgers_controller.js')
+app.use('/', routes);
 var port = 3000;
 app.listen(port, function () {
 	console.log('Listening on PORT ' + port);

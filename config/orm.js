@@ -3,49 +3,38 @@
 // selectAll()
 // insertOne()
 // updateOne()
-// Export the ORM object in module.exports.
+// Export the orm object in module.exports.
 var connection = require('./connection.js').connection;
 
 
-var ORM = {
-	selectAll: function(result) {
-		connection.query('SELECT * FROM burgers', function(err, data){
+var orm = {
+	selectAll: function(table, cb) {
+		connection.query('SELECT * FROM ' + table, function(err, dbRes){
 			if (err) {
 				throw err;
 			};
-			var devouredBurg = [];
-			var newBurg = [];
-
-			for (var i = 0; i < data.length; i++) {
-				if (data[i].devoured === 0) {
-					newBurg.push(data[i]);
-				} else {
-					devouredBurg.push(data[i])
-				}
-			};
-			var allBurgers = {
-				new: newBurg,
-				devoured: devouredBurg
-			};
-			result.render('index', allBurgers);
-		})
+			cb(dbRes); //cb = callback function. When this function is called later it will look like this function(dbRes) and will carry the table array with it
+		});
 	},
 
-	insert: function(name) {
+	insert: function(table, name) {
 		var newBurger = {
 			burger_name: name,
 			devoured: false
 		}
-		connection.query('INSERT INTO burgers SET ?', newBurger, function(err, data) {
+		connection.query('INSERT INTO ' + table + ' SET ?', newBurger, function(err, dbRes) {
 			if (err) {
 				throw err;
 			};
-
 		})
 	},
 
-	update: function(id){
-		connection.query('UPDATE burgers SET ? WHERE ?', [{devoured: true}, {id: id}], function(err, data) {
+	update: function(table, id){
+		var updateVals = [
+		{devoured: true}, 
+		{id: id}
+		];
+		connection.query('UPDATE ' + table + ' SET ? WHERE ?', updateVals, function(err, dbRes) {
 			if (err) {
 					throw err;
 			};
@@ -54,4 +43,4 @@ var ORM = {
 	}
 };
 
-module.exports = ORM;
+module.exports = orm;
